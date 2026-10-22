@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { SUR_MESURE_TEXT } from '../data/siteData'
 
-export default function SurMesureSection({ onContactClick }) {
+export default function SurMesureSection() {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggle = () => setIsOpen(!isOpen)
@@ -14,24 +13,24 @@ export default function SurMesureSection({ onContactClick }) {
 
   return (
     <section id="section-sur-mesure" className="w-full bg-white flex flex-col items-center scroll-mt-20">
-      <div className="w-full max-w-2xl mx-auto flex flex-col">
-        {/* BANNER HEADER */}
+      <div className="w-full flex flex-col">
+        {/* BANDEAU LE SUR-MESURE — PLEINE LARGEUR */}
         <button
           type="button"
           onClick={toggle}
-          className="group relative w-full aspect-1366/318 overflow-hidden bg-stone-900 cursor-pointer text-left focus:outline-hidden"
+          className="group relative w-full aspect-[1366/318] min-h-[140px] sm:min-h-[180px] md:min-h-[220px] lg:min-h-[260px] overflow-hidden bg-stone-900 cursor-pointer text-left focus:outline-hidden block leading-none"
           aria-expanded={isOpen}
         >
           <img
             src="/images/bandeau-le-sur-mesure.jpg"
             alt="Le Sur-Mesure"
-            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-102"
+            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-101 block"
           />
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/25 transition-colors duration-200"></div>
+          <div className="absolute inset-0 bg-black/5 group-hover:bg-black/20 transition-colors duration-200"></div>
 
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white/90 flex items-center justify-center backdrop-blur-xs transition-transform duration-300 group-hover:bg-black/70">
+          <div className="absolute right-4 sm:right-8 md:right-12 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/40 text-white/90 flex items-center justify-center backdrop-blur-xs transition-transform duration-300 group-hover:bg-black/70">
             <svg
-              className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -41,61 +40,45 @@ export default function SurMesureSection({ onContactClick }) {
           </div>
         </button>
 
-        {/* EXPANDED CONTENT */}
+        {/* CONTENU DÉPLIABLE DU SUR-MESURE */}
         <div
           className={`transition-all duration-500 ease-in-out overflow-hidden ${
             isOpen ? 'max-h-[3000px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
           }`}
         >
-          <div className="bg-white px-6 sm:px-12 py-10 flex flex-col items-center text-stone-800">
-            <div className="w-full max-w-xl space-y-5 text-sm sm:text-base leading-relaxed text-justify">
-              <p>{SUR_MESURE_TEXT.p1}</p>
-              <p className="font-medium text-stone-900 bg-amber-50/80 p-4 rounded-xl border border-amber-200/60">
-                {SUR_MESURE_TEXT.p2}
+          <div className="w-full bg-white pt-12 sm:pt-16 pb-0 flex flex-col items-center">
+            {/* Texte noir sur blanc, sans fioritures, centré */}
+            <div className="w-full max-w-3xl px-4 sm:px-8 space-y-6 text-black text-center text-sm sm:text-base md:text-lg leading-relaxed font-sans mb-8 sm:mb-12">
+              <p>
+                La céramique permet de proposer des œuvres murales aux formats très divers et robustes dans le temps dedans comme dehors, quand on maîtrise le choix des terres et des émaux. Elle sont adaptés aux intempéries et ne subissent pas ou peu de dégradations évitant ainsi des rénovations futures.
               </p>
-              <p>{SUR_MESURE_TEXT.p3}</p>
-              <p>{SUR_MESURE_TEXT.p4}</p>
-            </div>
-
-            {/* Fresque photo placeholder as in PDF: "Photo de fresque à venir." */}
-            <div className="w-full max-w-xl my-8 p-8 rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50 flex flex-col items-center justify-center text-center">
-              <div className="w-14 h-14 rounded-2xl bg-amber-100/80 text-amber-800 flex items-center justify-center mb-3 shadow-inner">
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <h4 className="text-sm sm:text-base font-bold text-stone-800">
-                Fresques murales & Projets d'exception
-              </h4>
-              <p className="text-xs text-stone-500 mt-1 italic">
-                Photographies de réalisations in-situ à venir très prochainement.
+              <p>
+                Ainsi, je permets à mes clients d’investir dans une décoration exceptionnellement durable.
+              </p>
+              <p>
+                J'apprécie de sortir de mon atelier pour travailler en équipe, avec des entreprises comme des restaurants, hôtels, magasins et autres ou pour le compte d’architectes d’intérieurs. Pour ces derniers, je m'adapte aux cahiers des charges techniques et à la direction artistique des projets dans leur ensemble.
+              </p>
+              <p>
+                Ce matériau noble permet aussi une décoration harmonieuse entre l’intérieur et l’extérieur, puisse qu’elle est assurée par la même artiste.
+              </p>
+              <p className="pt-2 font-medium">
+                Photo de fresque à venir.
               </p>
             </div>
 
-            {/* Action CTA */}
-            <button
-              type="button"
-              onClick={() => onContactClick && onContactClick('Projet sur-mesure')}
-              className="px-6 py-3 rounded-full bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold tracking-wider uppercase shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
-            >
-              Échanger autour d'un projet sur-mesure &rarr;
-            </button>
-
-            {/* Collapse button */}
+            {/* FLÈCHE NOIRE PLEINE LARGEUR COLLÉE AU BANDEAU SUIVANT SANS AUCUN VIDE */}
             <button
               type="button"
               onClick={collapse}
-              className="mt-10 group w-full max-w-md flex flex-col items-center cursor-pointer transition-transform duration-200 hover:scale-101"
+              className="w-full block border-0 p-0 m-0 bg-transparent cursor-pointer transition-opacity duration-200 hover:opacity-85 focus:outline-hidden leading-none select-none"
               title="Replier la section"
+              aria-label="Replier la section"
             >
               <img
                 src="/images/FLECHE-NOIRE.png"
                 alt="Replier"
-                className="w-full h-auto max-h-12 object-contain opacity-90 group-hover:opacity-100"
+                className="w-full h-auto block select-none pointer-events-none"
               />
-              <span className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold mt-1">
-                Replier
-              </span>
             </button>
           </div>
         </div>

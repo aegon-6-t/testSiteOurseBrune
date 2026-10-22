@@ -74,40 +74,40 @@ export const SERIES_LIST = [
     id: 'ob-al',
     title: 'OB-AL',
     bannerImg: '/images/bandeau-ob-al.jpg',
-    subtitle: 'Collaboration avec Aurélie Larmagnat',
-    description: 'Dialogue intime entre l’œil de la photographe Aurélie Larmagnat et le geste de la céramiste. Des pièces graphiques aux lignes géométriques et organiques.',
+    description: '',
+    items: [],
     isReady: false,
   },
   {
     id: 'trophethiques',
     title: 'TROPHÉTHIQUES',
     bannerImg: '/images/bandeau-trophethiques.jpg',
-    subtitle: 'Hommage à la faune sauvage',
-    description: 'Des trophées d’un genre nouveau : célébrer la vie plutôt que la chasse. Regards intenses d’animaux tracés à l’encre minérale sur céramique brute.',
+    description: '',
+    items: [],
     isReady: false,
   },
   {
     id: 'tout-va-bien',
     title: 'TOUT VA BIEN !',
     bannerImg: '/images/bandeau-tout-va-bien.jpg',
-    subtitle: 'Regards poétiques et engagés',
-    description: 'Une série pleine d’ironie tendre et d’émotion écologique, explorant notre lien fragile au vivant à travers des symboles du monde animal et végétal.',
+    description: '',
+    items: [],
     isReady: false,
   },
   {
     id: 'amanimales',
     title: 'AMANIMALES',
     bannerImg: '/images/bandeau-amanimales.jpg',
-    subtitle: 'Métamorphoses & Nature',
-    description: 'Exploration onirique où l’humain, l’animal et le règne floral s’entremêlent dans un foisonnement de motifs protecteurs et chamaniques.',
+    description: '',
+    items: [],
     isReady: false,
   },
   {
     id: 'hommages',
     title: 'HOMMAGES',
     bannerImg: '/images/bandeau-hommages.jpg',
-    subtitle: 'Inspirations & Maîtres',
-    description: 'Clin d’œil aux grands maîtres qui ont façonné l’histoire de la céramique et des arts décoratifs français du XXe siècle, de Cocteau à Picasso.',
+    description: '',
+    items: [],
     isReady: false,
   },
 ]
@@ -122,42 +122,20 @@ export const SUR_MESURE_TEXT = {
 export const OURSE_BRUNE_STORY = {
   p1: "En 2019, avec ma famille, nous nous sommes enfin attelés à vider l'atelier de nos grands-parents, mais j'ai été prise d'une envie irrésistible de m'y installer !",
   p2: "J'ai ressorti tous les outils, les plats vierges, les nombreux émaux et autres sachets ou flacons de produits mystérieux. Et surtout, les merveilleux cahiers de ma grand-mère, Marie-Madeleine Jolly, trésors de recettes et méthodes qu'elle avait précieusement notées. Elle était une femme extraordinaire au talent inestimable. Elle a créé avec Jean Cocteau, à la fin des années 50, une collection d'œuvres céramiques magnifiques.",
-  p3: "Me voilà donc partie dans l'aventure de l'atelier Ourse Brune, avec passion et émotion, même si la tâche a été difficile parfois ! La céramique demande une grande patience et le feu règne en maître. Mais quand la chimie opère, c'est magique.",
+  p3: "Me voilà donc parti dans l'aventure de l'atelier Ourse Brune, avec passion et émotion, même si la tâche a été difficile parfois ! La céramique demande une grande patience et le feu règne en maître. Mais quand la chimie opère, c'est magique.",
   p4: "J'ai vite compris pourquoi ma grand-mère passait tout son temps dans son atelier. Petite, je la regardais travailler sans dire un mot, pour ne pas la déconcentrer. J'étais fascinée. J'ignorais à cette époque qu'un jour, ces heures d'observation me guideraient dans mon travail. Ma reconnaissance pour cette transmission est immense.",
-  quote: "« J’aime cette couleur de la terre pareille à celle des corps hâlés par le soleil et je la recouvre le moins possible. Je tâche de donner à mes dessins le charme d’un tatouage sur une peau. »",
-  quoteAuthor: "Jean Cocteau",
-  p5: "J'adore cette approche de la céramique. La terre reste brute, seul le dessin se dégage en brillant.",
-  p6: "J'aime le mélange d'un art ancestral du patrimoine français, l'assiette traditionnelle murale, et du design moderne.",
-  p7: "J'ai pensé mon atelier le plus écologique possible et je choisis des matériaux au plus proche de mon territoire, la Drôme.",
+  p5: "Les plats ou coupes vierges en terre blanche sont pour moi comme la toile du peintre. Jean Cocteau disait : « J’aime cette couleur de la terre pareille à celle des corps hâlés par le soleil et je la recouvre le moins possible. Je tâche de donner à mes dessins le charme d’un tatouage sur une peau. »",
+  p6: "J'adore cette approche de la céramique. La terre reste brute, seul le dessin se dégage en brillant.",
+  p7: "J'aime le mélange d'un art ancestral du patrimoine français, l'assiette traditionnelle murale, et du design moderne.",
+  p8: "J'ai pensé mon atelier le plus écologique possible et je choisis des matériaux au plus proche de mon territoire, la Drôme.",
 }
 
 export const CONTACT_POLICY = {
-  lead: "Pour toute question ou commande, merci d’utiliser le formulaire ci-dessous.",
-  details: [
-    "Les pièces notées « Disponible » seront envoyées dès réception du règlement.",
-    "Pour celles notées « En commande », le délai de livraison est d'un mois maximum à partir de la commande. C'est le temps nécessaire à la fabrication. Chaque pièce est réalisée à la main et demande des heures de travail, puis vient la cuisson, avec son lot de surprises et parfois la nécessité de refaire la pièce selon les caprices du feu.",
-    "Pour éliminer le risque de casse, je porte une attention particulière à la livraison et aux solutions de fixation des œuvres fournies avec chaque pièce.",
-    "Amis galeristes, si vous souhaitez exposer mes œuvres, n'hésitez pas à me contacter !"
-  ]
+  intro: "Pour toute question ou commande, merci d’utiliser le formulaire ici",
+  p1: "Les pièces notées « Disponible » seront envoyées dès réception du règlement.",
+  p2: "Pour celles notées « En commande », le délai de livraison est d'un mois maximum à partir de la commande. C'est le temps nécessaire à la fabrication. Chaque pièce est réalisée à la main et demande des heures de travail, puis vient la cuisson, avec son lot de surprises et parfois la nécessité de refaire la pièce selon les caprices du feu.",
+  p3: "Pour éliminer le risque de casse, je porte une attention particulière à la livraison et aux solutions de fixation des œuvres.",
+  p4: "Amis galeristes, si vous souhaitez exposer mes œuvres, n'hésitez pas à me contacter !",
 }
 
-export const EVENTS_LIST = [
-  {
-    id: 1,
-    title: "Exposition « Terres Vivantes »",
-    date: "14 — 28 Novembre 2026",
-    place: "Galerie des Métiers d'Art — Dieulefit (Drôme)",
-    desc: "Présentation exclusive des nouvelles pièces de la série Trophéthiques et pièces murales grand format.",
-    linkText: "En savoir plus",
-    linkUrl: "#"
-  },
-  {
-    id: 2,
-    title: "Portes Ouvertes de l'Atelier Ourse Brune",
-    date: "12 — 13 Décembre 2026",
-    place: "Atelier Ourse Brune — Drôme",
-    desc: "Découverte de l'atelier historique, démonstrations d'émaillage et vente d'œuvres uniques avant les fêtes.",
-    linkText: "Réserver un créneau",
-    linkUrl: "#"
-  }
-]
+

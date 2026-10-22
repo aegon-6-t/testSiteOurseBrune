@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { EVENTS_LIST } from '../data/siteData'
 
 export default function NewsletterSection() {
   const [isOpen, setIsOpen] = useState(false)
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [popupEmail, setPopupEmail] = useState('')
+  const [popupSubscribed, setPopupSubscribed] = useState(false)
 
   const toggle = () => setIsOpen(!isOpen)
 
@@ -21,23 +23,30 @@ export default function NewsletterSection() {
     }
   }
 
+  const handlePopupSubscribe = (e) => {
+    e.preventDefault()
+    if (popupEmail) {
+      setPopupSubscribed(true)
+    }
+  }
+
   return (
     <section id="actualites" className="w-full bg-white flex flex-col items-center scroll-mt-20">
-      <div className="w-full max-w-2xl mx-auto flex flex-col">
-        {/* BANNER HEADER (Pure Black as in mockup) */}
+      <div className="w-full flex flex-col">
+        {/* BANDEAU ACTUALITÉS / NEWSLETTER (Noir) — PLEINE LARGEUR */}
         <button
           type="button"
           onClick={toggle}
-          className="group relative w-full py-8 sm:py-10 bg-black hover:bg-stone-900 transition-colors duration-200 cursor-pointer flex items-center justify-center text-center px-6"
+          className="group relative w-full py-10 sm:py-14 bg-black hover:bg-stone-950 transition-colors duration-200 cursor-pointer flex items-center justify-center text-center px-6 block leading-none"
           aria-expanded={isOpen}
         >
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-widest text-white uppercase font-sans">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-widest text-white uppercase font-sans">
             ACTUALITÉS / NEWSLETTER
           </h2>
 
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center backdrop-blur-xs transition-transform duration-300 group-hover:bg-white/30">
+          <div className="absolute right-4 sm:right-8 md:right-12 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/20 text-white flex items-center justify-center backdrop-blur-xs transition-transform duration-300 group-hover:bg-white/30">
             <svg
-              className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -47,108 +56,134 @@ export default function NewsletterSection() {
           </div>
         </button>
 
-        {/* EXPANDED CONTENT */}
+        {/* CONTENU DÉPLIABLE DE LA NEWSLETTER */}
         <div
           className={`transition-all duration-500 ease-in-out overflow-hidden ${
-            isOpen ? 'max-h-[4000px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+            isOpen ? 'max-h-[3000px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
           }`}
         >
-          <div className="bg-stone-900 px-6 sm:px-12 py-12 flex flex-col items-center text-stone-200">
-            {/* EVENTS SECTION */}
-            <div className="w-full max-w-xl mb-12">
-              <h3 className="text-sm font-bold tracking-widest uppercase text-stone-400 mb-6 text-center">
-                Agenda des expositions &amp; événements
-              </h3>
-
-              <div className="space-y-4">
-                {EVENTS_LIST.map((ev) => (
-                  <div
-                    key={ev.id}
-                    className="p-5 rounded-2xl bg-stone-800/80 border border-stone-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-200 hover:border-stone-600"
-                  >
-                    <div className="space-y-1">
-                      <span className="inline-block text-[11px] font-semibold tracking-wider text-amber-400 uppercase">
-                        {ev.date}
-                      </span>
-                      <h4 className="text-base font-bold text-white">{ev.title}</h4>
-                      <p className="text-xs text-stone-400">{ev.place}</p>
-                      <p className="text-xs text-stone-300 pt-1 leading-relaxed">{ev.desc}</p>
-                    </div>
-
-                    <a
-                      href={ev.linkUrl}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        alert(`Détails de l'événement : ${ev.title}\nLieu : ${ev.place}`)
-                      }}
-                      className="shrink-0 px-4 py-2 rounded-xl bg-stone-700 hover:bg-stone-600 text-white text-xs font-semibold tracking-wider transition-colors cursor-pointer"
-                    >
-                      {ev.linkText}
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ARTIST VALUES & NEWSLETTER BOX */}
-            <div className="w-full max-w-xl p-8 rounded-3xl bg-linear-to-b from-stone-800 to-stone-850 border border-stone-750 text-center flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-stone-700/80 text-amber-400 flex items-center justify-center mb-4">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-
-              {/* PDF TEXT ABOUT VALUES & SOCIAL MEDIA */}
-              <p className="text-sm sm:text-base font-medium text-stone-200 mb-2 leading-relaxed">
+          <div className="w-full bg-white pt-12 sm:pt-16 pb-0 flex flex-col items-center text-black">
+            {/* Texte noir sur blanc, sans fioritures, centré */}
+            <div className="w-full max-w-3xl px-4 sm:px-8 space-y-4 text-black text-center text-sm sm:text-base md:text-lg leading-relaxed font-sans mb-8">
+              <p>
                 Vous ne trouverez pas Ourse Brune sur les réseaux sociaux, incompatibles avec mes valeurs.
               </p>
-              <p className="text-xs sm:text-sm text-stone-400 mb-6">
-                Mais vous pouvez vous abonner à la Newsletter <span className="text-amber-400 font-semibold">(maximum 2 par an)</span> pour rester informé(e) des nouvelles collections et vernissages.
+              <p>
+                Mais vous pouvez vous abonner à la Newsletter (maximum 2 par an).
               </p>
+              <p className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsPopupOpen(true)}
+                  className="text-stone-600 hover:text-black underline underline-offset-4 transition-colors cursor-pointer text-sm sm:text-base"
+                >
+                  Lien vers une pop-up simple d’inscription à la Newsletter
+                </button>
+              </p>
+            </div>
 
+            {/* Champ de saisie simple sans logo */}
+            <div className="w-full max-w-md px-4 mb-12">
               {subscribed ? (
-                <div className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-700/80 text-emerald-300 text-xs font-medium w-full">
-                  Votre inscription a bien été enregistrée. Merci de votre confiance et à bientôt !
+                <div className="p-4 rounded-xl bg-stone-100 border border-stone-300 text-stone-900 text-sm font-medium text-center">
+                  Votre inscription a bien été enregistrée. Merci !
                 </div>
               ) : (
-                <form onSubmit={handleSubscribe} className="w-full flex flex-col sm:flex-row gap-3">
+                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Votre adresse email"
-                    className="flex-1 px-4 py-3 rounded-xl bg-stone-900 border border-stone-700 text-stone-100 placeholder-stone-500 text-sm focus:border-amber-400 focus:outline-hidden transition-colors"
+                    className="flex-1 px-4 py-3 rounded-lg border border-stone-300 focus:border-black focus:ring-1 focus:ring-black outline-hidden text-sm bg-white text-black placeholder-stone-400"
                   />
                   <button
                     type="submit"
-                    className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold tracking-wider text-xs uppercase shadow-md transition-all duration-200 cursor-pointer active:scale-95"
+                    className="px-6 py-3 rounded-lg bg-black hover:bg-stone-800 text-white font-bold tracking-wider text-xs sm:text-sm uppercase transition-colors cursor-pointer shrink-0"
                   >
-                    M'inscrire
+                    S'inscrire
                   </button>
                 </form>
               )}
             </div>
 
-            {/* Collapse button */}
+            {/* FLÈCHE NOIRE PLEINE LARGEUR COLLÉE AU PIED DE PAGE SANS AUCUN VIDE */}
             <button
               type="button"
               onClick={collapse}
-              className="mt-10 group w-full max-w-md flex flex-col items-center cursor-pointer transition-transform duration-200 hover:scale-101"
+              className="w-full block border-0 p-0 m-0 bg-transparent cursor-pointer transition-opacity duration-200 hover:opacity-85 focus:outline-hidden leading-none select-none"
               title="Replier la section"
+              aria-label="Replier la section"
             >
               <img
                 src="/images/FLECHE-NOIRE.png"
                 alt="Replier"
-                className="w-full h-auto max-h-12 object-contain filter invert opacity-90 group-hover:opacity-100"
+                className="w-full h-auto block select-none pointer-events-none"
               />
-              <span className="text-[10px] uppercase tracking-widest text-stone-400 font-semibold mt-1">
-                Replier
-              </span>
             </button>
           </div>
         </div>
       </div>
+
+      {/* POP-UP SIMPLE D'INSCRIPTION À LA NEWSLETTER */}
+      {isPopupOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+          onClick={() => setIsPopupOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-md bg-white rounded-2xl p-6 sm:p-8 shadow-2xl border border-stone-200 text-black"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setIsPopupOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 flex items-center justify-center transition-colors cursor-pointer"
+              aria-label="Fermer la pop-up"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wider text-black mb-2 text-center">
+              Inscription à la Newsletter
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-600 mb-6 text-center leading-relaxed">
+              Restez informé(e) des prochaines créations et expositions (maximum 2 par an).
+            </p>
+
+            {popupSubscribed ? (
+              <div className="p-4 rounded-xl bg-stone-100 border border-stone-300 text-stone-900 text-sm font-medium text-center">
+                Votre inscription a bien été enregistrée. Merci !
+              </div>
+            ) : (
+              <form onSubmit={handlePopupSubscribe} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-black mb-1.5">
+                    Adresse email *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={popupEmail}
+                    onChange={(e) => setPopupEmail(e.target.value)}
+                    placeholder="votre@email.fr"
+                    className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:border-black focus:ring-1 focus:ring-black outline-hidden text-sm bg-white text-black placeholder-stone-400"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-lg bg-black hover:bg-stone-800 text-white font-bold tracking-wider text-xs sm:text-sm uppercase transition-colors cursor-pointer"
+                >
+                  S'inscrire
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

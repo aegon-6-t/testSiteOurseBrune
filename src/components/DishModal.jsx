@@ -1,112 +1,150 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function DishModal({ dish, onClose, onOrder }) {
+export default function DishModal({ dish, onClose }) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Rassembler toutes les photos de détail :
+  // En priorité la photo détail (fullImage), puis la galerie de photos supplémentaires (gallery).
+  // Si aucune n'est renseignée, on affiche la photo principale (image).
+  const detailImages = [
+    dish?.fullImage,
+    ...(dish?.gallery || []),
+  ].filter(Boolean).filter((val, idx, arr) => arr.indexOf(val) === idx)
+
+  const images = detailImages.length > 0 ? detailImages : (dish?.image ? [dish.image] : [])
+
+  useEffect(() => {
+    setCurrentIndex(0)
+  }, [dish])
+
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        onClose()
+      } else if (e.key === 'ArrowLeft' && images.length > 1) {
+        setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+      } else if (e.key === 'ArrowRight' && images.length > 1) {
+        setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+      }
     }
+
     window.addEventListener('keydown', handleKeyDown)
     document.body.style.overflow = 'hidden'
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = 'unset'
     }
-  }, [onClose])
+  }, [onClose, images.length])
 
-  if (!dish) return null
+  if (!dish || images.length === 0) return null
 
-  const getStatusBadge = (status, color) => {
-    let textColor = 'text-amber-600'
-    let borderColor = 'border-amber-300'
-    let bgColor = 'bg-amber-50'
+  const prevImage = (e) => {
+    e.stopPropagation()
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+  }
 
-    if (color === 'green') {
-      textColor = 'text-emerald-700'
-      borderColor = 'border-emerald-300'
-      bgColor = 'bg-emerald-50'
-    } else if (color === 'red') {
-      textColor = 'text-rose-700'
-      borderColor = 'border-rose-300'
-      bgColor = 'bg-rose-50'
-    }
-
-    return (
-      <span
-        className={`inline-block px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full border ${textColor} ${borderColor} ${bgColor}`}
-      >
-        {status}
-      </span>
-    )
+  const nextImage = (e) => {
+    e.stopPropagation()
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
   }
 
   return (
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md select-none animate-in fade-in duration-200"
       onClick={onClose}
     >
-      <div
-        className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 flex flex-col md:flex-row max-h-[90vh]"
-        onClick={(e) => e.stopPropagation()}
+      {/* En-tête discret */}
+      <div className="absolute top-5 sm:top-6 left-6 sm:left-10 z-20 flex flex-col pointer-events-none">
+        <span className="text-xs sm:text-sm font-bold tracking-widest text-white/90 uppercase font-sans">
+          {dish.name}
+        </span>
+        <span className="text-[11px] text-white/50 tracking-wider">
+          {images.length > 1 ? `Photos de détail (${currentIndex + 1}/${images.length})` : 'Photo de détail'}
+        </span>
+      </div>
+
+      {/* Bouton Fermer */}
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-4 right-4 sm:top-6 sm:right-8 z-20 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer backdrop-blur-xs"
+        aria-label="Fermer le carrousel"
       >
-        {/* Close Button */}
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {/* Flèche Précédent */}
+      {images.length > 1 && (
         <button
           type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-stone-100/90 hover:bg-stone-200 text-stone-700 flex items-center justify-center transition-colors cursor-pointer"
-          aria-label="Fermer"
+          onClick={prevImage}
+          className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all cursor-pointer backdrop-blur-xs"
+          aria-label="Photo précédente"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
+      )}
 
-        {/* Visual column */}
-        <div className="w-full md:w-1/2 bg-stone-100 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-stone-200">
-          <div className="relative w-full max-w-[280px] aspect-square rounded-full p-2 bg-white shadow-md">
-            <img
-              src={dish.image}
-              alt={dish.name}
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <span className="text-[11px] text-stone-400 mt-3 font-mono">
-            Réf: {dish.id}
-          </span>
-        </div>
+      {/* Flèche Suivant */}
+      {images.length > 1 && (
+        <button
+          type="button"
+          onClick={nextImage}
+          className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all cursor-pointer backdrop-blur-xs"
+          aria-label="Photo suivante"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      )}
 
-        {/* Info Column */}
-        <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
-          <div>
-            <div className="mb-3">{getStatusBadge(dish.status, dish.statusColor)}</div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 tracking-wide mb-2 uppercase">
-              {dish.name}
-            </h3>
-            <div className="space-y-1 text-xs sm:text-sm text-stone-600 mb-4 pb-4 border-b border-stone-200">
-              <p className="font-semibold text-stone-800">{dish.type}</p>
-              <p>Matière : <span className="text-stone-800">{dish.material}</span></p>
-              <p>Tirage : <span className="text-stone-800">{dish.edition}</span></p>
-            </div>
-            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed mb-6">
-              {dish.description}
-            </p>
-          </div>
-
-          <div className="space-y-3 pt-2">
-            <button
-              type="button"
-              onClick={() => onOrder(dish.name)}
-              className="w-full py-3 rounded-xl bg-[#800e18] hover:bg-[#680b13] text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
-            >
-              Commander ou réserver cette œuvre &rarr;
-            </button>
-            <p className="text-[11px] text-stone-400 text-center italic">
-              Fixation murale incluse • Emballage sécurisé anti-casse
-            </p>
-          </div>
-        </div>
+      {/* Conteneur principal de l'image plein écran */}
+      <div
+        className="relative w-full h-full flex items-center justify-center p-4 sm:p-12 md:p-16"
+        onClick={onClose}
+      >
+        <img
+          key={images[currentIndex]}
+          src={images[currentIndex]}
+          alt={`${dish.name} - détail ${currentIndex + 1}`}
+          className="max-w-[92vw] max-h-[85vh] object-contain drop-shadow-2xl transition-all duration-300 select-none pointer-events-auto"
+          onClick={(e) => e.stopPropagation()}
+        />
       </div>
+
+      {/* Indicateurs de pagination en bas si plusieurs images */}
+      {images.length > 1 && (
+        <div className="absolute bottom-5 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3">
+          <div className="flex items-center gap-2 bg-black/50 px-4 py-2 rounded-full backdrop-blur-xs border border-white/10">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setCurrentIndex(idx)
+                }}
+                className={`transition-all rounded-full cursor-pointer ${
+                  currentIndex === idx
+                    ? 'w-6 h-2 bg-white'
+                    : 'w-2 h-2 bg-white/40 hover:bg-white/70'
+                }`}
+                aria-label={`Aller à la photo ${idx + 1}`}
+              />
+            ))}
+            <span className="text-xs text-white/80 font-mono ml-2">
+              {currentIndex + 1} / {images.length}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
